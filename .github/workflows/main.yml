@@ -1,0 +1,31 @@
+name: Aula Morgen-Briefing
+
+on:
+  schedule:
+    # Kører kl. 04:00 UTC (svarende til kl. 06:00 i dansk sommertid)
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-briefing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hent kildekode
+        uses: actions/checkout@v4
+
+      - name: Sæt Python op
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Installer biblioteker
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Kør Morgen-Briefing
+        env:
+          AULA_TOKENS_JSON: ${{ secrets.AULA_TOKENS_JSON }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py
