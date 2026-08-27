@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-briefing:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Hent kildekode
         uses: actions/checkout@v4
